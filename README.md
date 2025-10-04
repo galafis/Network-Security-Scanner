@@ -1,10 +1,17 @@
 # Network Security Scanner
 
+![Network Security Scanner Hero Image](assets/network-security-scanner-hero.png)
+
 [English](#english) | [Português](#português)
 
 ## English
 
 ### Overview
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0%2B-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
 Advanced network security scanner built with Python and Flask. Features comprehensive network discovery, vulnerability scanning, port analysis, and security assessment capabilities for identifying potential security risks in network infrastructure.
 
 ### Features
@@ -38,9 +45,9 @@ cd Network-Security-Scanner
 pip install -r requirements.txt
 ```
 
-3. Run the scanner:
+3. Run the application:
 ```bash
-python network_scanner.py
+python app.py
 ```
 
 4. Open your browser to `http://localhost:5000`
@@ -58,21 +65,16 @@ python network_scanner.py
 
 **Start Network Scan**
 ```bash
-curl -X POST http://localhost:5000/api/scan \
+curl -X POST http://localhost:5000/scan \
   -H "Content-Type: application/json" \
-  -d '{"target": "192.168.1.0/24", "scan_type": "comprehensive"}'
+  -d '{"target": "192.168.1.0/24", "scan_type": "network"}'
 ```
 
-**Get Scan Results**
+**Get Scan Results (Example for a single host scan)**
 ```bash
-curl -X GET http://localhost:5000/api/results/scan_id_123
-```
-
-**Port Scan**
-```bash
-curl -X POST http://localhost:5000/api/port-scan \
+curl -X POST http://localhost:5000/scan \
   -H "Content-Type: application/json" \
-  -d '{"host": "192.168.1.1", "ports": "1-1000"}'
+  -d '{"target": "192.168.1.1", "scan_type": "host"}'
 ```
 
 #### Python API
@@ -83,18 +85,17 @@ from network_scanner import NetworkScanner
 scanner = NetworkScanner()
 
 # Discover network devices
-devices = scanner.discover_network("192.168.1.0/24")
+devices = scanner.scan_network("192.168.1.0/24")
 
 # Scan specific host
 results = scanner.scan_host(
     host="192.168.1.100",
-    ports="1-1000",
-    scan_type="comprehensive"
+    ports=[21, 22, 80, 443],
+    timeout=2
 )
 
-# Generate security report
-report = scanner.generate_report(results)
-print(f"Vulnerabilities found: {len(report['vulnerabilities'])}")
+# Print results
+print(results)
 ```
 
 ### Scanning Features
@@ -184,27 +185,7 @@ print(f"Vulnerabilities found: {len(report['vulnerabilities'])}")
 - **Compliance Monitoring**: Ongoing compliance status
 
 ### Configuration
-Configure scanner settings in `config.json`:
-```json
-{
-  "scan_settings": {
-    "default_timeout": 5,
-    "max_threads": 100,
-    "scan_delay": 0.1,
-    "retry_attempts": 3
-  },
-  "vulnerability_db": {
-    "update_frequency": "daily",
-    "sources": ["nvd", "cve", "custom"],
-    "severity_threshold": "medium"
-  },
-  "reporting": {
-    "include_screenshots": true,
-    "export_formats": ["pdf", "html", "json"],
-    "auto_email": false
-  }
-}
-```
+Configure scanner settings in `config.py` and environment variables.
 
 ### Security Considerations
 - **Authorized Use Only**: Only scan networks you own or have permission to test
@@ -233,6 +214,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Português
 
 ### Visão Geral
+
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
+[![Flask](https://img.shields.io/badge/Flask-2.0%2B-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
 Scanner avançado de segurança de rede construído com Python e Flask. Apresenta descoberta abrangente de rede, varredura de vulnerabilidades, análise de portas e capacidades de avaliação de segurança para identificar potenciais riscos de segurança na infraestrutura de rede.
 
 ### Funcionalidades
@@ -266,18 +252,165 @@ cd Network-Security-Scanner
 pip install -r requirements.txt
 ```
 
-3. Execute o scanner:
+3. Execute a aplicação:
 ```bash
-python network_scanner.py
+python app.py
 ```
 
 4. Abra seu navegador em `http://localhost:5000`
 
+### Uso
+
+#### Interface Web
+1. **Configuração de Alvo**: Defina alvos e parâmetros de varredura
+2. **Execução da Varredura**: Inicie varreduras de segurança de rede
+3. **Análise de Resultados**: Revise os resultados da varredura e vulnerabilidades
+4. **Geração de Relatórios**: Crie relatórios detalhados de segurança
+5. **Painel de Monitoramento**: Status de segurança de rede em tempo real
+
+#### Endpoints da API
+
+**Iniciar Varredura de Rede**
+```bash
+curl -X POST http://localhost:5000/scan \
+  -H "Content-Type: application/json" \
+  -d '{"target": "192.168.1.0/24", "scan_type": "network"}'
+```
+
+**Obter Resultados da Varredura (Exemplo para varredura de host único)**
+```bash
+curl -X POST http://localhost:5000/scan \
+  -H "Content-Type: application/json" \
+  -d '{"target": "192.168.1.1", "scan_type": "host"}'
+```
+
+#### API Python
+```python
+from network_scanner import NetworkScanner
+
+# Inicializar scanner
+scanner = NetworkScanner()
+
+# Descobrir dispositivos de rede
+dispositivos = scanner.scan_network("192.168.1.0/24")
+
+# Varredura de host específico
+resultados = scanner.scan_host(
+    host="192.168.1.100",
+    ports=[21, 22, 80, 443],
+    timeout=2
+)
+
+# Imprimir resultados
+print(resultados)
+```
+
+### Recursos de Varredura
+
+#### Descoberta de Rede
+- **Ping Sweep**: Detecção de hosts ativos
+- **Descoberta ARP**: Descoberta de dispositivos de rede local
+- **Resolução DNS**: Resolução de nomes de host
+- **Mapeamento de Rede**: Visualização da topologia de rede
+
+#### Varredura de Portas
+- **Varredura TCP Connect**: Varredura completa de conexão TCP
+- **Varredura SYN**: Varredura SYN furtiva
+- **Varredura UDP**: Varredura de portas UDP
+- **Detecção de Serviços**: Identificação de serviços e versões
+
+#### Avaliação de Vulnerabilidades
+- **Vulnerabilidades Comuns**: Integração com banco de dados CVE
+- **Problemas de Configuração**: Configurações de segurança incorretas
+- **Credenciais Fracas**: Detecção de senhas padrão
+- **Serviços Desatualizados**: Análise de vulnerabilidade de versão
+
+#### Análise de Segurança
+- **Portas Abertas**: Identificação de portas abertas desnecessárias
+- **Banners de Serviço**: Coleta de informações de serviço
+- **Análise SSL/TLS**: Análise de certificados e criptografia
+- **Detecção de Firewall**: Análise de regras de firewall
+
+### Tipos de Varredura
+
+#### Varredura Rápida
+- **Descoberta Rápida**: Visão geral rápida da rede
+- **Portas Comuns**: As 100 portas mais comuns
+- **Serviços Básicos**: Detecção de serviços essenciais
+- **Avaliação Rápida**: Visão geral de segurança de alto nível
+
+#### Varredura Abrangente
+- **Faixa Completa de Portas**: Todas as 65535 portas
+- **Análise Detalhada**: Análise aprofundada de serviços
+- **Verificações de Vulnerabilidade**: Avaliação completa de vulnerabilidades
+- **Impacto no Desempenho**: Varredura completa, mas mais lenta
+
+#### Varredura Furtiva
+- **Baixo Perfil**: Mínima pegada de rede
+- **Técnicas de Evasão**: Evasão de IDS/IPS
+- **Pacotes Fragmentados**: Fragmentação de pacotes
+- **Controle de Tempo**: Otimização do tempo de varredura
+
+#### Varredura Personalizada
+- **Definida pelo Usuário**: Parâmetros de varredura personalizados
+- **Alvos Flexíveis**: Múltiplos formatos de alvo
+- **Portas Seletivas**: Intervalos de portas específicas
+- **Opções Avançadas**: Configuração especializada
+
+### Relatórios de Segurança
+
+#### Resumo Executivo
+- **Visão Geral de Risco**: Avaliação de segurança de alto nível
+- **Problemas Críticos**: Preocupações de segurança prioritárias
+- **Recomendações**: Itens de ação imediata
+- **Status de Conformidade**: Conformidade com padrões de segurança
+
+#### Detalhes Técnicos
+- **Lista de Vulnerabilidades**: Informações detalhadas sobre vulnerabilidades
+- **Análise de Portas**: Avaliação de segurança de portas abertas
+- **Informações de Serviço**: Detalhes de configuração de serviço
+- **Etapas de Remediação**: Instruções técnicas de correção
+
+#### Relatórios de Conformidade
+- **PCI DSS**: Conformidade com o padrão da indústria de cartões de pagamento
+- **HIPAA**: Requisitos de segurança de saúde
+- **SOX**: Conformidade com Sarbanes-Oxley
+- **Padrões Personalizados**: Requisitos específicos da organização
+
+### Painel de Monitoramento
+
+#### Status em Tempo Real
+- **Varreduras Ativas**: Varreduras em execução no momento
+- **Saúde da Rede**: Status geral de segurança da rede
+- **Resumo de Alertas**: Alertas e avisos de segurança
+- **Métricas de Desempenho**: Estatísticas de desempenho da varredura
+
+#### Análise Histórica
+- **Análise de Tendências**: Tendências da postura de segurança
+- **Rastreamento de Vulnerabilidades**: Ciclo de vida das vulnerabilidades
+- **Progresso da Remediação**: Rastreamento da implementação de correções
+- **Monitoramento de Conformidade**: Status de conformidade contínuo
+
+### Configuração
+Configure as configurações do scanner em `config.py` e variáveis de ambiente.
+
+### Considerações de Segurança
+- **Uso Autorizado Apenas**: Varredura apenas em redes de sua propriedade ou com permissão para testar
+- **Conformidade Legal**: Siga as leis e regulamentos locais
+- **Divulgação Responsável**: Relate vulnerabilidades de forma responsável
+- **Impacto na Rede**: Considere o impacto da varredura no desempenho da rede
+
+### Integração
+- **Sistemas SIEM**: Gerenciamento de informações e eventos de segurança
+- **Gerenciamento de Vulnerabilidades**: Integração com scanners de vulnerabilidades
+- **Sistemas de Tickets**: Criação automática de tickets para problemas
+- **Ferramentas de Conformidade**: Integração com plataformas de conformidade
+
 ### Contribuindo
 1. Faça um fork do repositório
-2. Crie uma branch de feature (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -am 'Adicionar nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
+2. Crie uma branch de feature (`git checkout -b feature/new-feature`)
+3. Commit suas mudanças (`git commit -am 'Add new feature'`)
+4. Push para a branch (`git push origin feature/new-feature`)
 5. Crie um Pull Request
 
 ### Licença
