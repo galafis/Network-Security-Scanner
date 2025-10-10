@@ -1,7 +1,5 @@
 # Network Security Scanner
 
-![Network Security Scanner Hero Image](assets/network-security-scanner-hero.png)
-
 [English](#english) | [Português](#português)
 
 ## English
@@ -13,6 +11,20 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 Advanced network security scanner built with Python and Flask. Features comprehensive network discovery, vulnerability scanning, port analysis, and security assessment capabilities for identifying potential security risks in network infrastructure.
+
+### Screenshots
+
+#### Web Interface
+
+![Network Scanner Dashboard](https://via.placeholder.com/1200x600/1f2937/ffffff?text=Network+Security+Scanner+Dashboard)
+
+*Web interface showing network scan results, open ports, and security analysis*
+
+#### Scan Results
+
+![Scan Results View](https://via.placeholder.com/1200x400/1f2937/ffffff?text=Scan+Results+and+Vulnerability+Report)
+
+*Detailed scan results with vulnerability assessment and recommendations*
 
 ### Features
 - **Network Discovery**: Automatic network device discovery
@@ -215,6 +227,12 @@ Configure scanner settings in `config.py` and environment variables.
 
 ### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### Author
+
+**Gabriel Demetrios Lafis**
+- GitHub: [@galafis](https://github.com/galafis)
+- LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-lafis)
 
 ---
 
@@ -429,4 +447,10 @@ Configure as configurações do scanner em `config.py` e variáveis de ambiente.
 
 ### Licença
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
+### Autor
+
+**Gabriel Demetrios Lafis**
+- GitHub: [@galafis](https://github.com/galafis)
+- LinkedIn: [Gabriel Demetrios Lafis](https://linkedin.com/in/gabriel-lafis)
 
