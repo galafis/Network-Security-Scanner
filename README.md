@@ -50,6 +50,13 @@ pip install -r requirements.txt
 python app.py
 ```
 
+### Running Tests
+
+To run the backend tests, navigate to the project root and execute:
+```bash
+python3 -m pytest test_network_scanner.py
+```
+
 4. Open your browser to `http://localhost:5000`
 
 ### Usage
@@ -255,6 +262,13 @@ pip install -r requirements.txt
 3. Execute a aplicação:
 ```bash
 python app.py
+```
+
+### Running Tests
+
+To run the backend tests, navigate to the project root and execute:
+```bash
+python3 -m pytest test_network_scanner.py
 ```
 
 4. Abra seu navegador em `http://localhost:5000`
