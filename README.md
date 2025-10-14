@@ -41,6 +41,12 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 - **Real-time Monitoring**: Live network security monitoring
 - **Custom Scan Profiles**: Configurable scanning parameters
 - **Export Capabilities**: Multiple report export formats
+- **CLI Interface**: Powerful command-line interface for automation
+- **REST API**: Full-featured API for integration
+- **Web Dashboard**: User-friendly web interface
+- **Multi-threaded Scanning**: Fast concurrent port scanning
+- **Input Validation**: Comprehensive input validation and error handling
+- **Logging**: Detailed logging for audit trails
 
 ### Technologies Used
 - **Python 3.8+**: Core programming language
@@ -165,6 +171,50 @@ python3 -m unittest discover -v
 ```
 
 ### Usage
+
+#### Command Line Interface (CLI)
+
+The scanner provides a powerful CLI for terminal-based scanning.
+
+**Basic host scan:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1
+```
+
+**Scan hostname:**
+```bash
+python3 scanner_cli.py -t example.com
+```
+
+**Network range scan:**
+```bash
+python3 scanner_cli.py -t 192.168.1.0/24 --network
+```
+
+**Scan specific ports:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -p 80,443,8080,3306
+```
+
+**Save results to JSON file:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -o results.json
+```
+
+**JSON output mode:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --json
+```
+
+**Quiet mode (no banner):**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -q
+```
+
+**Custom timeout:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --timeout 2
+```
 
 #### Web Interface
 1. **Target Configuration**: Set scan targets and parameters
@@ -353,10 +403,29 @@ print(results)
 Configure scanner settings in `config.py` and environment variables.
 
 ### Security Considerations
-- **Authorized Use Only**: Only scan networks you own or have permission to test
-- **Legal Compliance**: Follow local laws and regulations
-- **Responsible Disclosure**: Report vulnerabilities responsibly
-- **Network Impact**: Consider scan impact on network performance
+
+#### Legal and Ethical Use
+- **Authorized Use Only**: Only scan networks you own or have explicit written permission to test
+- **Legal Compliance**: Follow all local, state, and federal laws regarding network scanning
+- **Responsible Disclosure**: Report discovered vulnerabilities responsibly to affected parties
+- **Professional Ethics**: Use this tool only for legitimate security assessment purposes
+
+#### Best Practices
+- **Network Impact**: Schedule scans during low-usage periods to minimize network disruption
+- **Rate Limiting**: Use appropriate timeouts and delays to avoid overwhelming target systems
+- **Documentation**: Keep detailed records of all scans performed, including authorization
+- **Data Protection**: Secure scan results containing sensitive information
+- **Regular Updates**: Keep the scanner and all dependencies updated for security patches
+
+#### Security Recommendations
+- **Use HTTPS**: Always use HTTPS in production environments
+- **Authentication**: Implement authentication for the web interface in production
+- **Access Control**: Restrict access to the scanner to authorized personnel only
+- **Logging**: Monitor and review scan logs regularly for unusual activity
+- **Encryption**: Use encrypted channels when transmitting scan results
+
+#### Disclaimer
+This tool is provided for educational and authorized security assessment purposes only. Users are solely responsible for ensuring their use of this tool complies with all applicable laws and regulations. The authors assume no liability for misuse or damage caused by this tool.
 
 ### Integration
 - **SIEM Systems**: Security information and event management
@@ -365,11 +434,18 @@ Configure scanner settings in `config.py` and environment variables.
 - **Compliance Tools**: Integration with compliance platforms
 
 ### Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+Quick start:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
+3. Make your changes with tests
+4. Commit your changes (`git commit -am 'Add new feature'`)
+5. Push to the branch (`git push origin feature/new-feature`)
+6. Create a Pull Request
+
+For bug reports, feature requests, or questions, please open an issue on GitHub.
 
 ### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -421,6 +497,12 @@ Scanner avançado de segurança de rede construído com Python e Flask. Apresent
 - **Monitoramento em Tempo Real**: Monitoramento de segurança de rede ao vivo
 - **Perfis de Varredura Personalizados**: Parâmetros de varredura configuráveis
 - **Capacidades de Exportação**: Múltiplos formatos de exportação de relatórios
+- **Interface CLI**: Interface de linha de comando poderosa para automação
+- **API REST**: API completa para integração
+- **Painel Web**: Interface web amigável
+- **Varredura Multi-threaded**: Varredura rápida e concorrente de portas
+- **Validação de Entrada**: Validação abrangente de entrada e tratamento de erros
+- **Logging**: Logging detalhado para trilhas de auditoria
 
 ### Tecnologias Utilizadas
 - **Python 3.8+**: Linguagem de programação principal
@@ -545,6 +627,50 @@ python3 -m unittest discover -v
 ```
 
 ### Uso
+
+#### Interface de Linha de Comando (CLI)
+
+O scanner fornece uma CLI poderosa para varreduras baseadas em terminal.
+
+**Varredura básica de host:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1
+```
+
+**Varredura de nome de host:**
+```bash
+python3 scanner_cli.py -t example.com
+```
+
+**Varredura de faixa de rede:**
+```bash
+python3 scanner_cli.py -t 192.168.1.0/24 --network
+```
+
+**Varredura de portas específicas:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -p 80,443,8080,3306
+```
+
+**Salvar resultados em arquivo JSON:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -o resultados.json
+```
+
+**Modo de saída JSON:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --json
+```
+
+**Modo silencioso (sem banner):**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -q
+```
+
+**Timeout personalizado:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --timeout 2
+```
 
 #### Interface Web
 1. **Configuração de Alvo**: Defina alvos e parâmetros de varredura
@@ -733,10 +859,29 @@ print(resultados)
 Configure as configurações do scanner em `config.py` e variáveis de ambiente.
 
 ### Considerações de Segurança
-- **Uso Autorizado Apenas**: Varredura apenas em redes de sua propriedade ou com permissão para testar
-- **Conformidade Legal**: Siga as leis e regulamentos locais
-- **Divulgação Responsável**: Relate vulnerabilidades de forma responsável
-- **Impacto na Rede**: Considere o impacto da varredura no desempenho da rede
+
+#### Uso Legal e Ético
+- **Uso Autorizado Apenas**: Varredura apenas em redes de sua propriedade ou com permissão explícita por escrito
+- **Conformidade Legal**: Siga todas as leis locais, estaduais e federais referentes à varredura de rede
+- **Divulgação Responsável**: Relate vulnerabilidades descobertas de forma responsável às partes afetadas
+- **Ética Profissional**: Use esta ferramenta apenas para fins legítimos de avaliação de segurança
+
+#### Melhores Práticas
+- **Impacto na Rede**: Agende varreduras durante períodos de baixo uso para minimizar a interrupção da rede
+- **Limitação de Taxa**: Use timeouts e atrasos apropriados para evitar sobrecarregar sistemas de destino
+- **Documentação**: Mantenha registros detalhados de todas as varreduras realizadas, incluindo autorização
+- **Proteção de Dados**: Proteja os resultados de varredura contendo informações sensíveis
+- **Atualizações Regulares**: Mantenha o scanner e todas as dependências atualizadas para patches de segurança
+
+#### Recomendações de Segurança
+- **Use HTTPS**: Sempre use HTTPS em ambientes de produção
+- **Autenticação**: Implemente autenticação para a interface web em produção
+- **Controle de Acesso**: Restrinja o acesso ao scanner apenas ao pessoal autorizado
+- **Logging**: Monitore e revise os logs de varredura regularmente para atividades incomuns
+- **Criptografia**: Use canais criptografados ao transmitir resultados de varredura
+
+#### Aviso Legal
+Esta ferramenta é fornecida apenas para fins educacionais e de avaliação de segurança autorizados. Os usuários são os únicos responsáveis por garantir que o uso desta ferramenta esteja em conformidade com todas as leis e regulamentos aplicáveis. Os autores não assumem qualquer responsabilidade por uso indevido ou danos causados por esta ferramenta.
 
 ### Integração
 - **Sistemas SIEM**: Gerenciamento de informações e eventos de segurança
@@ -745,11 +890,18 @@ Configure as configurações do scanner em `config.py` e variáveis de ambiente.
 - **Ferramentas de Conformidade**: Integração com plataformas de conformidade
 
 ### Contribuindo
+
+Recebemos contribuições com prazer! Consulte [CONTRIBUTING.md](CONTRIBUTING.md) para diretrizes detalhadas.
+
+Início rápido:
 1. Faça um fork do repositório
 2. Crie uma branch de feature (`git checkout -b feature/new-feature`)
-3. Commit suas mudanças (`git commit -am 'Add new feature'`)
-4. Push para a branch (`git push origin feature/new-feature`)
-5. Crie um Pull Request
+3. Faça suas alterações com testes
+4. Commit suas mudanças (`git commit -am 'Add new feature'`)
+5. Push para a branch (`git push origin feature/new-feature`)
+6. Crie um Pull Request
+
+Para relatórios de bugs, solicitações de recursos ou perguntas, abra uma issue no GitHub.
 
 ### Licença
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
