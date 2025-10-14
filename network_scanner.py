@@ -167,10 +167,10 @@ class NetworkScanner:
             
         except ValueError as e:
             logger.error(f"Invalid network format {network}: {e}")
-            return {'error': f'Invalid network format: {e}'}
+            return {'error': 'Invalid network format'}
         except Exception as e:
             logger.error(f"Network scan error: {e}")
-            return {'error': f'Network scan failed: {e}'}
+            return {'error': 'Network scan failed'}
     
     def _scan_port(self, host, port, timeout):
         """Scan a single port on a host.

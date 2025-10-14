@@ -107,10 +107,12 @@ def scan_target():
         
     except ValueError as e:
         logger.error(f"Validation error: {str(e)}")
-        return jsonify({"error": f"Validation error: {str(e)}"}), 400
+        # Don't expose internal error details to users
+        return jsonify({"error": "Invalid input parameters"}), 400
     except Exception as e:
         logger.error(f"Scan error: {str(e)}", exc_info=True)
-        return jsonify({"error": f"An error occurred during scanning: {str(e)}"}), 500
+        # Don't expose internal error details to users
+        return jsonify({"error": "An error occurred during scanning. Please check your input and try again."}), 500
 
 @app.errorhandler(404)
 def not_found(error):
