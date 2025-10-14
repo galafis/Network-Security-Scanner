@@ -14,17 +14,23 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 
 ### Screenshots
 
-#### Web Interface
+#### Web Interface - Main Dashboard
 
-![Network Scanner Dashboard](https://via.placeholder.com/1200x600/1f2937/ffffff?text=Network+Security+Scanner+Dashboard)
+![Network Scanner Dashboard](https://placehold.co/1200x600/1f2937/ffffff/png?text=Network+Security+Scanner+Dashboard&font=roboto)
 
-*Web interface showing network scan results, open ports, and security analysis*
+*Modern web interface for configuring and executing network security scans*
 
-#### Scan Results
+#### Scan Results View
 
-![Scan Results View](https://via.placeholder.com/1200x400/1f2937/ffffff?text=Scan+Results+and+Vulnerability+Report)
+![Scan Results](https://placehold.co/1200x400/2c3e50/ffffff/png?text=Detailed+Scan+Results+%26+Vulnerability+Report&font=roboto)
 
-*Detailed scan results with vulnerability assessment and recommendations*
+*Comprehensive scan results showing open ports, services, and vulnerability assessments*
+
+#### Security Analysis
+
+![Security Analysis](https://placehold.co/1200x400/34495e/ffffff/png?text=Security+Risk+Analysis+%26+Recommendations&font=roboto)
+
+*Real-time security analysis with risk scoring and actionable recommendations*
 
 ### Features
 - **Network Discovery**: Automatic network device discovery
@@ -35,43 +41,180 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 - **Real-time Monitoring**: Live network security monitoring
 - **Custom Scan Profiles**: Configurable scanning parameters
 - **Export Capabilities**: Multiple report export formats
+- **CLI Interface**: Powerful command-line interface for automation
+- **REST API**: Full-featured API for integration
+- **Web Dashboard**: User-friendly web interface
+- **Multi-threaded Scanning**: Fast concurrent port scanning
+- **Input Validation**: Comprehensive input validation and error handling
+- **Logging**: Detailed logging for audit trails
 
 ### Technologies Used
-- **Python 3.8+**
-- **Flask**: Web framework and dashboard
-- **Socket**: Network communication
-- **Threading**: Concurrent scanning
-- **JSON**: Configuration and reporting
-- **HTML/CSS**: Web interface
+- **Python 3.8+**: Core programming language
+- **Flask**: Web framework and REST API
+- **Flask-CORS**: Cross-Origin Resource Sharing support
+- **Socket**: Low-level network communication
+- **Threading**: Concurrent port scanning
+- **ipaddress**: Network address manipulation
+- **JSON**: Configuration and reporting format
+- **HTML/CSS/JavaScript**: Modern web interface
+- **pytest**: Testing framework
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Web Interface                        │
+│           (HTML/CSS/JavaScript Frontend)                │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  │ HTTP/JSON API
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│                 Flask REST API                          │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Input Validation & Error Handling              │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Logging & Security Headers                      │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│            Network Scanner Module                       │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Port Scanning Engine (Threaded)                │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Service Identification                          │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Vulnerability Assessment                        │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Security Analysis & Reporting                   │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### Installation
 
-1. Clone the repository:
+#### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+- Virtual environment (recommended)
+
+#### Step-by-Step Installation
+
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/galafis/Network-Security-Scanner.git
 cd Network-Security-Scanner
 ```
 
-2. Install dependencies:
+2. **Create and activate a virtual environment (recommended):**
+```bash
+# On Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+
+# On Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the application:
+4. **Configure environment variables (optional):**
+```bash
+cp .env.example .env
+# Edit .env file with your preferred settings
+```
+
+5. **Run the application:**
 ```bash
 python app.py
 ```
 
+6. **Access the web interface:**
+Open your browser to `http://localhost:5000`
+
 ### Running Tests
 
-To run the backend tests, navigate to the project root and execute:
+The project includes comprehensive unit and integration tests.
+
+**Run all tests:**
 ```bash
-python3 -m pytest test_network_scanner.py
+python3 -m pytest test_network_scanner.py test_app.py -v
 ```
 
-4. Open your browser to `http://localhost:5000`
+**Run specific test file:**
+```bash
+# Backend scanner tests
+python3 -m pytest test_network_scanner.py -v
+
+# Flask app tests
+python3 -m pytest test_app.py -v
+```
+
+**Run with coverage:**
+```bash
+python3 -m pytest --cov=network_scanner --cov=app --cov-report=html
+```
+
+**Using unittest (alternative):**
+```bash
+python3 -m unittest discover -v
+```
 
 ### Usage
+
+#### Command Line Interface (CLI)
+
+The scanner provides a powerful CLI for terminal-based scanning.
+
+**Basic host scan:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1
+```
+
+**Scan hostname:**
+```bash
+python3 scanner_cli.py -t example.com
+```
+
+**Network range scan:**
+```bash
+python3 scanner_cli.py -t 192.168.1.0/24 --network
+```
+
+**Scan specific ports:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -p 80,443,8080,3306
+```
+
+**Save results to JSON file:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -o results.json
+```
+
+**JSON output mode:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --json
+```
+
+**Quiet mode (no banner):**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -q
+```
+
+**Custom timeout:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --timeout 2
+```
 
 #### Web Interface
 1. **Target Configuration**: Set scan targets and parameters
@@ -82,6 +225,21 @@ python3 -m pytest test_network_scanner.py
 
 #### API Endpoints
 
+The scanner provides a REST API for programmatic access.
+
+**Health Check**
+```bash
+curl -X GET http://localhost:5000/health
+```
+
+Response:
+```json
+{
+  "status": "healthy",
+  "service": "Network Security Scanner"
+}
+```
+
 **Start Network Scan**
 ```bash
 curl -X POST http://localhost:5000/scan \
@@ -89,11 +247,49 @@ curl -X POST http://localhost:5000/scan \
   -d '{"target": "192.168.1.0/24", "scan_type": "network"}'
 ```
 
-**Get Scan Results (Example for a single host scan)**
+**Scan Single Host**
 ```bash
 curl -X POST http://localhost:5000/scan \
   -H "Content-Type: application/json" \
   -d '{"target": "192.168.1.1", "scan_type": "host"}'
+```
+
+**Scan with Hostname**
+```bash
+curl -X POST http://localhost:5000/scan \
+  -H "Content-Type: application/json" \
+  -d '{"target": "example.com", "scan_type": "host"}'
+```
+
+Response Example:
+```json
+{
+  "host": "example.com",
+  "ip": "93.184.216.34",
+  "timestamp": "2024-01-15T10:30:00.123456",
+  "open_ports": [80, 443],
+  "closed_ports": [21, 22, 23],
+  "services": {
+    "80": "HTTP",
+    "443": "HTTPS"
+  },
+  "vulnerabilities": [
+    {
+      "type": "Unencrypted Web Traffic",
+      "severity": "Medium",
+      "description": "HTTP traffic is not encrypted",
+      "recommendation": "Use HTTPS with valid SSL/TLS certificate"
+    }
+  ],
+  "security_analysis": {
+    "risk_level": "Medium",
+    "score": 80,
+    "recommendations": [
+      "Use encrypted alternatives (HTTPS, SFTP, SSH)",
+      "Regular security audits recommended"
+    ]
+  }
+}
 ```
 
 #### Python API
@@ -207,10 +403,29 @@ print(results)
 Configure scanner settings in `config.py` and environment variables.
 
 ### Security Considerations
-- **Authorized Use Only**: Only scan networks you own or have permission to test
-- **Legal Compliance**: Follow local laws and regulations
-- **Responsible Disclosure**: Report vulnerabilities responsibly
-- **Network Impact**: Consider scan impact on network performance
+
+#### Legal and Ethical Use
+- **Authorized Use Only**: Only scan networks you own or have explicit written permission to test
+- **Legal Compliance**: Follow all local, state, and federal laws regarding network scanning
+- **Responsible Disclosure**: Report discovered vulnerabilities responsibly to affected parties
+- **Professional Ethics**: Use this tool only for legitimate security assessment purposes
+
+#### Best Practices
+- **Network Impact**: Schedule scans during low-usage periods to minimize network disruption
+- **Rate Limiting**: Use appropriate timeouts and delays to avoid overwhelming target systems
+- **Documentation**: Keep detailed records of all scans performed, including authorization
+- **Data Protection**: Secure scan results containing sensitive information
+- **Regular Updates**: Keep the scanner and all dependencies updated for security patches
+
+#### Security Recommendations
+- **Use HTTPS**: Always use HTTPS in production environments
+- **Authentication**: Implement authentication for the web interface in production
+- **Access Control**: Restrict access to the scanner to authorized personnel only
+- **Logging**: Monitor and review scan logs regularly for unusual activity
+- **Encryption**: Use encrypted channels when transmitting scan results
+
+#### Disclaimer
+This tool is provided for educational and authorized security assessment purposes only. Users are solely responsible for ensuring their use of this tool complies with all applicable laws and regulations. The authors assume no liability for misuse or damage caused by this tool.
 
 ### Integration
 - **SIEM Systems**: Security information and event management
@@ -219,11 +434,18 @@ Configure scanner settings in `config.py` and environment variables.
 - **Compliance Tools**: Integration with compliance platforms
 
 ### Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+Quick start:
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add new feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Create a Pull Request
+3. Make your changes with tests
+4. Commit your changes (`git commit -am 'Add new feature'`)
+5. Push to the branch (`git push origin feature/new-feature`)
+6. Create a Pull Request
+
+For bug reports, feature requests, or questions, please open an issue on GitHub.
 
 ### License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -246,6 +468,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Scanner avançado de segurança de rede construído com Python e Flask. Apresenta descoberta abrangente de rede, varredura de vulnerabilidades, análise de portas e capacidades de avaliação de segurança para identificar potenciais riscos de segurança na infraestrutura de rede.
 
+### Capturas de Tela
+
+#### Interface Web - Painel Principal
+
+![Painel do Scanner de Rede](https://placehold.co/1200x600/1f2937/ffffff/png?text=Painel+do+Scanner+de+Segurança+de+Rede&font=roboto)
+
+*Interface web moderna para configurar e executar varreduras de segurança de rede*
+
+#### Visualização de Resultados da Varredura
+
+![Resultados da Varredura](https://placehold.co/1200x400/2c3e50/ffffff/png?text=Resultados+Detalhados+e+Relatório+de+Vulnerabilidades&font=roboto)
+
+*Resultados abrangentes mostrando portas abertas, serviços e avaliações de vulnerabilidades*
+
+#### Análise de Segurança
+
+![Análise de Segurança](https://placehold.co/1200x400/34495e/ffffff/png?text=Análise+de+Risco+e+Recomendações+de+Segurança&font=roboto)
+
+*Análise de segurança em tempo real com pontuação de risco e recomendações acionáveis*
+
 ### Funcionalidades
 - **Descoberta de Rede**: Descoberta automática de dispositivos de rede
 - **Varredura de Portas**: Análise abrangente de portas e detecção de serviços
@@ -255,43 +497,180 @@ Scanner avançado de segurança de rede construído com Python e Flask. Apresent
 - **Monitoramento em Tempo Real**: Monitoramento de segurança de rede ao vivo
 - **Perfis de Varredura Personalizados**: Parâmetros de varredura configuráveis
 - **Capacidades de Exportação**: Múltiplos formatos de exportação de relatórios
+- **Interface CLI**: Interface de linha de comando poderosa para automação
+- **API REST**: API completa para integração
+- **Painel Web**: Interface web amigável
+- **Varredura Multi-threaded**: Varredura rápida e concorrente de portas
+- **Validação de Entrada**: Validação abrangente de entrada e tratamento de erros
+- **Logging**: Logging detalhado para trilhas de auditoria
 
 ### Tecnologias Utilizadas
-- **Python 3.8+**
-- **Flask**: Framework web e dashboard
-- **Socket**: Comunicação de rede
-- **Threading**: Varredura concorrente
-- **JSON**: Configuração e relatórios
-- **HTML/CSS**: Interface web
+- **Python 3.8+**: Linguagem de programação principal
+- **Flask**: Framework web e API REST
+- **Flask-CORS**: Suporte para Cross-Origin Resource Sharing
+- **Socket**: Comunicação de rede de baixo nível
+- **Threading**: Varredura concorrente de portas
+- **ipaddress**: Manipulação de endereços de rede
+- **JSON**: Formato de configuração e relatórios
+- **HTML/CSS/JavaScript**: Interface web moderna
+- **pytest**: Framework de testes
+
+### Arquitetura
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                  Interface Web                          │
+│           (Frontend HTML/CSS/JavaScript)                │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  │ API HTTP/JSON
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│                 API REST Flask                          │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Validação de Entrada e Tratamento de Erros    │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Logging e Cabeçalhos de Segurança             │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│            Módulo Network Scanner                       │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Motor de Varredura de Portas (Threaded)       │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Identificação de Serviços                      │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Avaliação de Vulnerabilidades                  │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Análise de Segurança e Relatórios              │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### Instalação
 
-1. Clone o repositório:
+#### Pré-requisitos
+- Python 3.8 ou superior
+- pip (gerenciador de pacotes Python)
+- Ambiente virtual (recomendado)
+
+#### Instalação Passo a Passo
+
+1. **Clone o repositório:**
 ```bash
 git clone https://github.com/galafis/Network-Security-Scanner.git
 cd Network-Security-Scanner
 ```
 
-2. Instale as dependências:
+2. **Crie e ative um ambiente virtual (recomendado):**
+```bash
+# No Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+
+# No Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. **Instale as dependências:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Execute a aplicação:
+4. **Configure as variáveis de ambiente (opcional):**
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações preferidas
+```
+
+5. **Execute a aplicação:**
 ```bash
 python app.py
 ```
 
-### Running Tests
+6. **Acesse a interface web:**
+Abra seu navegador em `http://localhost:5000`
 
-To run the backend tests, navigate to the project root and execute:
+### Executando Testes
+
+O projeto inclui testes unitários e de integração abrangentes.
+
+**Executar todos os testes:**
 ```bash
-python3 -m pytest test_network_scanner.py
+python3 -m pytest test_network_scanner.py test_app.py -v
 ```
 
-4. Abra seu navegador em `http://localhost:5000`
+**Executar arquivo de teste específico:**
+```bash
+# Testes do scanner backend
+python3 -m pytest test_network_scanner.py -v
+
+# Testes da aplicação Flask
+python3 -m pytest test_app.py -v
+```
+
+**Executar com cobertura:**
+```bash
+python3 -m pytest --cov=network_scanner --cov=app --cov-report=html
+```
+
+**Usando unittest (alternativa):**
+```bash
+python3 -m unittest discover -v
+```
 
 ### Uso
+
+#### Interface de Linha de Comando (CLI)
+
+O scanner fornece uma CLI poderosa para varreduras baseadas em terminal.
+
+**Varredura básica de host:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1
+```
+
+**Varredura de nome de host:**
+```bash
+python3 scanner_cli.py -t example.com
+```
+
+**Varredura de faixa de rede:**
+```bash
+python3 scanner_cli.py -t 192.168.1.0/24 --network
+```
+
+**Varredura de portas específicas:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -p 80,443,8080,3306
+```
+
+**Salvar resultados em arquivo JSON:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -o resultados.json
+```
+
+**Modo de saída JSON:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --json
+```
+
+**Modo silencioso (sem banner):**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 -q
+```
+
+**Timeout personalizado:**
+```bash
+python3 scanner_cli.py -t 192.168.1.1 --timeout 2
+```
 
 #### Interface Web
 1. **Configuração de Alvo**: Defina alvos e parâmetros de varredura
@@ -302,6 +681,21 @@ python3 -m pytest test_network_scanner.py
 
 #### Endpoints da API
 
+O scanner fornece uma API REST para acesso programático.
+
+**Verificação de Saúde**
+```bash
+curl -X GET http://localhost:5000/health
+```
+
+Resposta:
+```json
+{
+  "status": "healthy",
+  "service": "Network Security Scanner"
+}
+```
+
 **Iniciar Varredura de Rede**
 ```bash
 curl -X POST http://localhost:5000/scan \
@@ -309,11 +703,49 @@ curl -X POST http://localhost:5000/scan \
   -d '{"target": "192.168.1.0/24", "scan_type": "network"}'
 ```
 
-**Obter Resultados da Varredura (Exemplo para varredura de host único)**
+**Varredura de Host Único**
 ```bash
 curl -X POST http://localhost:5000/scan \
   -H "Content-Type: application/json" \
   -d '{"target": "192.168.1.1", "scan_type": "host"}'
+```
+
+**Varredura com Nome de Host**
+```bash
+curl -X POST http://localhost:5000/scan \
+  -H "Content-Type: application/json" \
+  -d '{"target": "example.com", "scan_type": "host"}'
+```
+
+Exemplo de Resposta:
+```json
+{
+  "host": "example.com",
+  "ip": "93.184.216.34",
+  "timestamp": "2024-01-15T10:30:00.123456",
+  "open_ports": [80, 443],
+  "closed_ports": [21, 22, 23],
+  "services": {
+    "80": "HTTP",
+    "443": "HTTPS"
+  },
+  "vulnerabilities": [
+    {
+      "type": "Unencrypted Web Traffic",
+      "severity": "Medium",
+      "description": "HTTP traffic is not encrypted",
+      "recommendation": "Use HTTPS with valid SSL/TLS certificate"
+    }
+  ],
+  "security_analysis": {
+    "risk_level": "Medium",
+    "score": 80,
+    "recommendations": [
+      "Use encrypted alternatives (HTTPS, SFTP, SSH)",
+      "Regular security audits recommended"
+    ]
+  }
+}
 ```
 
 #### API Python
@@ -427,10 +859,29 @@ print(resultados)
 Configure as configurações do scanner em `config.py` e variáveis de ambiente.
 
 ### Considerações de Segurança
-- **Uso Autorizado Apenas**: Varredura apenas em redes de sua propriedade ou com permissão para testar
-- **Conformidade Legal**: Siga as leis e regulamentos locais
-- **Divulgação Responsável**: Relate vulnerabilidades de forma responsável
-- **Impacto na Rede**: Considere o impacto da varredura no desempenho da rede
+
+#### Uso Legal e Ético
+- **Uso Autorizado Apenas**: Varredura apenas em redes de sua propriedade ou com permissão explícita por escrito
+- **Conformidade Legal**: Siga todas as leis locais, estaduais e federais referentes à varredura de rede
+- **Divulgação Responsável**: Relate vulnerabilidades descobertas de forma responsável às partes afetadas
+- **Ética Profissional**: Use esta ferramenta apenas para fins legítimos de avaliação de segurança
+
+#### Melhores Práticas
+- **Impacto na Rede**: Agende varreduras durante períodos de baixo uso para minimizar a interrupção da rede
+- **Limitação de Taxa**: Use timeouts e atrasos apropriados para evitar sobrecarregar sistemas de destino
+- **Documentação**: Mantenha registros detalhados de todas as varreduras realizadas, incluindo autorização
+- **Proteção de Dados**: Proteja os resultados de varredura contendo informações sensíveis
+- **Atualizações Regulares**: Mantenha o scanner e todas as dependências atualizadas para patches de segurança
+
+#### Recomendações de Segurança
+- **Use HTTPS**: Sempre use HTTPS em ambientes de produção
+- **Autenticação**: Implemente autenticação para a interface web em produção
+- **Controle de Acesso**: Restrinja o acesso ao scanner apenas ao pessoal autorizado
+- **Logging**: Monitore e revise os logs de varredura regularmente para atividades incomuns
+- **Criptografia**: Use canais criptografados ao transmitir resultados de varredura
+
+#### Aviso Legal
+Esta ferramenta é fornecida apenas para fins educacionais e de avaliação de segurança autorizados. Os usuários são os únicos responsáveis por garantir que o uso desta ferramenta esteja em conformidade com todas as leis e regulamentos aplicáveis. Os autores não assumem qualquer responsabilidade por uso indevido ou danos causados por esta ferramenta.
 
 ### Integração
 - **Sistemas SIEM**: Gerenciamento de informações e eventos de segurança
@@ -439,11 +890,18 @@ Configure as configurações do scanner em `config.py` e variáveis de ambiente.
 - **Ferramentas de Conformidade**: Integração com plataformas de conformidade
 
 ### Contribuindo
+
+Recebemos contribuições com prazer! Consulte [CONTRIBUTING.md](CONTRIBUTING.md) para diretrizes detalhadas.
+
+Início rápido:
 1. Faça um fork do repositório
 2. Crie uma branch de feature (`git checkout -b feature/new-feature`)
-3. Commit suas mudanças (`git commit -am 'Add new feature'`)
-4. Push para a branch (`git push origin feature/new-feature`)
-5. Crie um Pull Request
+3. Faça suas alterações com testes
+4. Commit suas mudanças (`git commit -am 'Add new feature'`)
+5. Push para a branch (`git push origin feature/new-feature`)
+6. Crie um Pull Request
+
+Para relatórios de bugs, solicitações de recursos ou perguntas, abra uma issue no GitHub.
 
 ### Licença
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
