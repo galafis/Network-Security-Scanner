@@ -9,6 +9,8 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Security](https://img.shields.io/badge/Security-Scanner-red?style=for-the-badge&logo=security)](https://github.com/galafis/Network-Security-Scanner)
+[![Network](https://img.shields.io/badge/Network-Analysis-green?style=for-the-badge&logo=cisco)](https://github.com/galafis/Network-Security-Scanner)
 
 Advanced network security scanner built with Python and Flask. Features comprehensive network discovery, vulnerability scanning, port analysis, and security assessment capabilities for identifying potential security risks in network infrastructure.
 
@@ -16,21 +18,21 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 
 #### Web Interface - Main Dashboard
 
-![Network Scanner Dashboard](https://placehold.co/1200x600/1f2937/ffffff/png?text=Network+Security+Scanner+Dashboard&font=roboto)
+![Network Scanner Dashboard](https://github.com/user-attachments/assets/b1d8e387-a633-4ea0-ba88-0d9d57e9390d)
 
 *Modern web interface for configuring and executing network security scans*
 
 #### Scan Results View
 
-![Scan Results](https://placehold.co/1200x400/2c3e50/ffffff/png?text=Detailed+Scan+Results+%26+Vulnerability+Report&font=roboto)
+![Scan Results](https://github.com/user-attachments/assets/98b7b020-0910-4f02-8991-e0c5a57ed630)
 
 *Comprehensive scan results showing open ports, services, and vulnerability assessments*
 
 #### Security Analysis
 
-![Security Analysis](https://placehold.co/1200x400/34495e/ffffff/png?text=Security+Risk+Analysis+%26+Recommendations&font=roboto)
+![Security Analysis](https://github.com/user-attachments/assets/98b7b020-0910-4f02-8991-e0c5a57ed630)
 
-*Real-time security analysis with risk scoring and actionable recommendations*
+*Real-time security analysis with risk scoring and actionable recommendations shown in scan results*
 
 ### Features
 - **Network Discovery**: Automatic network device discovery
@@ -61,40 +63,81 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 
 ### Architecture
 
+```mermaid
+graph TB
+    subgraph "Client Layer"
+        A[Web Interface<br/>HTML/CSS/JavaScript]
+        B[CLI Interface<br/>scanner_cli.py]
+        C[Python API<br/>Direct Integration]
+    end
+    
+    subgraph "API Layer"
+        D[Flask REST API<br/>app.py]
+        E[Input Validation &<br/>Error Handling]
+        F[Logging & Security<br/>Headers]
+    end
+    
+    subgraph "Core Engine"
+        G[Network Scanner Module<br/>network_scanner.py]
+        H[Port Scanning Engine<br/>Multi-threaded]
+        I[Service Identification]
+        J[Vulnerability Assessment]
+        K[Security Analysis &<br/>Reporting]
+    end
+    
+    A -->|HTTP/JSON| D
+    B -->|Direct Call| G
+    C -->|Import| G
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    G --> I
+    G --> J
+    G --> K
+    
+    style A fill:#e3f2fd
+    style B fill:#e3f2fd
+    style C fill:#e3f2fd
+    style D fill:#fff3e0
+    style E fill:#fff3e0
+    style F fill:#fff3e0
+    style G fill:#f3e5f5
+    style H fill:#f3e5f5
+    style I fill:#f3e5f5
+    style J fill:#f3e5f5
+    style K fill:#f3e5f5
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Web Interface                        │
-│           (HTML/CSS/JavaScript Frontend)                │
-└─────────────────┬───────────────────────────────────────┘
-                  │
-                  │ HTTP/JSON API
-                  ↓
-┌─────────────────────────────────────────────────────────┐
-│                 Flask REST API                          │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Input Validation & Error Handling              │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Logging & Security Headers                      │  │
-│  └─────────────────────────────────────────────────┘  │
-└─────────────────┬───────────────────────────────────────┘
-                  │
-                  ↓
-┌─────────────────────────────────────────────────────────┐
-│            Network Scanner Module                       │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Port Scanning Engine (Threaded)                │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Service Identification                          │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Vulnerability Assessment                        │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Security Analysis & Reporting                   │  │
-│  └─────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
+
+### Scan Workflow
+
+The following diagram illustrates the complete scanning process from input to report generation:
+
+```mermaid
+flowchart LR
+    A[User Input<br/>Target IP/Network] --> B{Validate<br/>Input}
+    B -->|Valid| C[Network Discovery<br/>Ping Sweep]
+    B -->|Invalid| Z[Error Response]
+    C --> D[Active Hosts<br/>Identified]
+    D --> E[Port Scanning<br/>Multi-threaded]
+    E --> F[Open Ports<br/>Detected]
+    F --> G[Service<br/>Identification]
+    G --> H[Vulnerability<br/>Assessment]
+    H --> I[Security<br/>Analysis]
+    I --> J[Risk Scoring]
+    J --> K[Generate<br/>Report]
+    K --> L[Return Results<br/>JSON/HTML]
+    
+    style A fill:#e1f5ff
+    style C fill:#fff4e6
+    style E fill:#fff4e6
+    style G fill:#fff4e6
+    style H fill:#ffe6e6
+    style I fill:#ffe6e6
+    style J fill:#ffe6e6
+    style K fill:#e6ffe6
+    style L fill:#e6ffe6
+    style Z fill:#ffcccc
 ```
 
 ### Installation
@@ -465,6 +508,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0%2B-black?style=for-the-badge&logo=flask)](https://flask.palletsprojects.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![Security](https://img.shields.io/badge/Segurança-Scanner-red?style=for-the-badge&logo=security)](https://github.com/galafis/Network-Security-Scanner)
+[![Network](https://img.shields.io/badge/Rede-Análise-green?style=for-the-badge&logo=cisco)](https://github.com/galafis/Network-Security-Scanner)
 
 Scanner avançado de segurança de rede construído com Python e Flask. Apresenta descoberta abrangente de rede, varredura de vulnerabilidades, análise de portas e capacidades de avaliação de segurança para identificar potenciais riscos de segurança na infraestrutura de rede.
 
@@ -472,21 +517,21 @@ Scanner avançado de segurança de rede construído com Python e Flask. Apresent
 
 #### Interface Web - Painel Principal
 
-![Painel do Scanner de Rede](https://placehold.co/1200x600/1f2937/ffffff/png?text=Painel+do+Scanner+de+Segurança+de+Rede&font=roboto)
+![Painel do Scanner de Rede](https://github.com/user-attachments/assets/b1d8e387-a633-4ea0-ba88-0d9d57e9390d)
 
 *Interface web moderna para configurar e executar varreduras de segurança de rede*
 
 #### Visualização de Resultados da Varredura
 
-![Resultados da Varredura](https://placehold.co/1200x400/2c3e50/ffffff/png?text=Resultados+Detalhados+e+Relatório+de+Vulnerabilidades&font=roboto)
+![Resultados da Varredura](https://github.com/user-attachments/assets/98b7b020-0910-4f02-8991-e0c5a57ed630)
 
 *Resultados abrangentes mostrando portas abertas, serviços e avaliações de vulnerabilidades*
 
 #### Análise de Segurança
 
-![Análise de Segurança](https://placehold.co/1200x400/34495e/ffffff/png?text=Análise+de+Risco+e+Recomendações+de+Segurança&font=roboto)
+![Análise de Segurança](https://github.com/user-attachments/assets/98b7b020-0910-4f02-8991-e0c5a57ed630)
 
-*Análise de segurança em tempo real com pontuação de risco e recomendações acionáveis*
+*Análise de segurança em tempo real com pontuação de risco e recomendações acionáveis mostradas nos resultados da varredura*
 
 ### Funcionalidades
 - **Descoberta de Rede**: Descoberta automática de dispositivos de rede
@@ -517,40 +562,81 @@ Scanner avançado de segurança de rede construído com Python e Flask. Apresent
 
 ### Arquitetura
 
+```mermaid
+graph TB
+    subgraph "Camada de Cliente"
+        A[Interface Web<br/>HTML/CSS/JavaScript]
+        B[Interface CLI<br/>scanner_cli.py]
+        C[API Python<br/>Integração Direta]
+    end
+    
+    subgraph "Camada de API"
+        D[API REST Flask<br/>app.py]
+        E[Validação de Entrada e<br/>Tratamento de Erros]
+        F[Logging e Cabeçalhos<br/>de Segurança]
+    end
+    
+    subgraph "Motor Principal"
+        G[Módulo Network Scanner<br/>network_scanner.py]
+        H[Motor de Varredura<br/>Multi-threaded]
+        I[Identificação de Serviços]
+        J[Avaliação de<br/>Vulnerabilidades]
+        K[Análise de Segurança<br/>e Relatórios]
+    end
+    
+    A -->|HTTP/JSON| D
+    B -->|Chamada Direta| G
+    C -->|Import| G
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    G --> I
+    G --> J
+    G --> K
+    
+    style A fill:#e3f2fd
+    style B fill:#e3f2fd
+    style C fill:#e3f2fd
+    style D fill:#fff3e0
+    style E fill:#fff3e0
+    style F fill:#fff3e0
+    style G fill:#f3e5f5
+    style H fill:#f3e5f5
+    style I fill:#f3e5f5
+    style J fill:#f3e5f5
+    style K fill:#f3e5f5
 ```
-┌─────────────────────────────────────────────────────────┐
-│                  Interface Web                          │
-│           (Frontend HTML/CSS/JavaScript)                │
-└─────────────────┬───────────────────────────────────────┘
-                  │
-                  │ API HTTP/JSON
-                  ↓
-┌─────────────────────────────────────────────────────────┐
-│                 API REST Flask                          │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Validação de Entrada e Tratamento de Erros    │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Logging e Cabeçalhos de Segurança             │  │
-│  └─────────────────────────────────────────────────┘  │
-└─────────────────┬───────────────────────────────────────┘
-                  │
-                  ↓
-┌─────────────────────────────────────────────────────────┐
-│            Módulo Network Scanner                       │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Motor de Varredura de Portas (Threaded)       │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Identificação de Serviços                      │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Avaliação de Vulnerabilidades                  │  │
-│  └─────────────────────────────────────────────────┘  │
-│  ┌─────────────────────────────────────────────────┐  │
-│  │  Análise de Segurança e Relatórios              │  │
-│  └─────────────────────────────────────────────────┘  │
-└─────────────────────────────────────────────────────────┘
+
+### Fluxo de Varredura
+
+O diagrama a seguir ilustra o processo completo de varredura desde a entrada até a geração de relatórios:
+
+```mermaid
+flowchart LR
+    A[Entrada do Usuário<br/>IP/Rede Alvo] --> B{Validar<br/>Entrada}
+    B -->|Válido| C[Descoberta de Rede<br/>Ping Sweep]
+    B -->|Inválido| Z[Resposta de Erro]
+    C --> D[Hosts Ativos<br/>Identificados]
+    D --> E[Varredura de Portas<br/>Multi-threaded]
+    E --> F[Portas Abertas<br/>Detectadas]
+    F --> G[Identificação<br/>de Serviços]
+    G --> H[Avaliação de<br/>Vulnerabilidades]
+    H --> I[Análise de<br/>Segurança]
+    I --> J[Pontuação<br/>de Risco]
+    J --> K[Gerar<br/>Relatório]
+    K --> L[Retornar Resultados<br/>JSON/HTML]
+    
+    style A fill:#e1f5ff
+    style C fill:#fff4e6
+    style E fill:#fff4e6
+    style G fill:#fff4e6
+    style H fill:#ffe6e6
+    style I fill:#ffe6e6
+    style J fill:#ffe6e6
+    style K fill:#e6ffe6
+    style L fill:#e6ffe6
+    style Z fill:#ffcccc
 ```
 
 ### Instalação

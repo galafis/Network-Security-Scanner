@@ -121,11 +121,17 @@ Thumbs.db
 
 # Project specific
 *.pkl
+data/
+models/
+logs/
+
+# Exclude images except those in images/ directory
 *.png
 *.jpg
 *.jpeg
 *.gif
-data/
-models/
-logs/
+!images/*.png
+!images/*.jpg
+!images/*.jpeg
+!images/*.gif
 
