@@ -14,17 +14,23 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 
 ### Screenshots
 
-#### Web Interface
+#### Web Interface - Main Dashboard
 
-![Network Scanner Dashboard](https://via.placeholder.com/1200x600/1f2937/ffffff?text=Network+Security+Scanner+Dashboard)
+![Network Scanner Dashboard](https://placehold.co/1200x600/1f2937/ffffff/png?text=Network+Security+Scanner+Dashboard&font=roboto)
 
-*Web interface showing network scan results, open ports, and security analysis*
+*Modern web interface for configuring and executing network security scans*
 
-#### Scan Results
+#### Scan Results View
 
-![Scan Results View](https://via.placeholder.com/1200x400/1f2937/ffffff?text=Scan+Results+and+Vulnerability+Report)
+![Scan Results](https://placehold.co/1200x400/2c3e50/ffffff/png?text=Detailed+Scan+Results+%26+Vulnerability+Report&font=roboto)
 
-*Detailed scan results with vulnerability assessment and recommendations*
+*Comprehensive scan results showing open ports, services, and vulnerability assessments*
+
+#### Security Analysis
+
+![Security Analysis](https://placehold.co/1200x400/34495e/ffffff/png?text=Security+Risk+Analysis+%26+Recommendations&font=roboto)
+
+*Real-time security analysis with risk scoring and actionable recommendations*
 
 ### Features
 - **Network Discovery**: Automatic network device discovery
@@ -37,39 +43,126 @@ Advanced network security scanner built with Python and Flask. Features comprehe
 - **Export Capabilities**: Multiple report export formats
 
 ### Technologies Used
-- **Python 3.8+**
-- **Flask**: Web framework and dashboard
-- **Socket**: Network communication
-- **Threading**: Concurrent scanning
-- **JSON**: Configuration and reporting
-- **HTML/CSS**: Web interface
+- **Python 3.8+**: Core programming language
+- **Flask**: Web framework and REST API
+- **Flask-CORS**: Cross-Origin Resource Sharing support
+- **Socket**: Low-level network communication
+- **Threading**: Concurrent port scanning
+- **ipaddress**: Network address manipulation
+- **JSON**: Configuration and reporting format
+- **HTML/CSS/JavaScript**: Modern web interface
+- **pytest**: Testing framework
+
+### Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Web Interface                        │
+│           (HTML/CSS/JavaScript Frontend)                │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  │ HTTP/JSON API
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│                 Flask REST API                          │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Input Validation & Error Handling              │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Logging & Security Headers                      │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│            Network Scanner Module                       │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Port Scanning Engine (Threaded)                │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Service Identification                          │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Vulnerability Assessment                        │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Security Analysis & Reporting                   │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### Installation
 
-1. Clone the repository:
+#### Prerequisites
+- Python 3.8 or higher
+- pip (Python package manager)
+- Virtual environment (recommended)
+
+#### Step-by-Step Installation
+
+1. **Clone the repository:**
 ```bash
 git clone https://github.com/galafis/Network-Security-Scanner.git
 cd Network-Security-Scanner
 ```
 
-2. Install dependencies:
+2. **Create and activate a virtual environment (recommended):**
+```bash
+# On Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+
+# On Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. **Install dependencies:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the application:
+4. **Configure environment variables (optional):**
+```bash
+cp .env.example .env
+# Edit .env file with your preferred settings
+```
+
+5. **Run the application:**
 ```bash
 python app.py
 ```
 
+6. **Access the web interface:**
+Open your browser to `http://localhost:5000`
+
 ### Running Tests
 
-To run the backend tests, navigate to the project root and execute:
+The project includes comprehensive unit and integration tests.
+
+**Run all tests:**
 ```bash
-python3 -m pytest test_network_scanner.py
+python3 -m pytest test_network_scanner.py test_app.py -v
 ```
 
-4. Open your browser to `http://localhost:5000`
+**Run specific test file:**
+```bash
+# Backend scanner tests
+python3 -m pytest test_network_scanner.py -v
+
+# Flask app tests
+python3 -m pytest test_app.py -v
+```
+
+**Run with coverage:**
+```bash
+python3 -m pytest --cov=network_scanner --cov=app --cov-report=html
+```
+
+**Using unittest (alternative):**
+```bash
+python3 -m unittest discover -v
+```
 
 ### Usage
 
@@ -82,6 +175,21 @@ python3 -m pytest test_network_scanner.py
 
 #### API Endpoints
 
+The scanner provides a REST API for programmatic access.
+
+**Health Check**
+```bash
+curl -X GET http://localhost:5000/health
+```
+
+Response:
+```json
+{
+  "status": "healthy",
+  "service": "Network Security Scanner"
+}
+```
+
 **Start Network Scan**
 ```bash
 curl -X POST http://localhost:5000/scan \
@@ -89,11 +197,49 @@ curl -X POST http://localhost:5000/scan \
   -d '{"target": "192.168.1.0/24", "scan_type": "network"}'
 ```
 
-**Get Scan Results (Example for a single host scan)**
+**Scan Single Host**
 ```bash
 curl -X POST http://localhost:5000/scan \
   -H "Content-Type: application/json" \
   -d '{"target": "192.168.1.1", "scan_type": "host"}'
+```
+
+**Scan with Hostname**
+```bash
+curl -X POST http://localhost:5000/scan \
+  -H "Content-Type: application/json" \
+  -d '{"target": "example.com", "scan_type": "host"}'
+```
+
+Response Example:
+```json
+{
+  "host": "example.com",
+  "ip": "93.184.216.34",
+  "timestamp": "2024-01-15T10:30:00.123456",
+  "open_ports": [80, 443],
+  "closed_ports": [21, 22, 23],
+  "services": {
+    "80": "HTTP",
+    "443": "HTTPS"
+  },
+  "vulnerabilities": [
+    {
+      "type": "Unencrypted Web Traffic",
+      "severity": "Medium",
+      "description": "HTTP traffic is not encrypted",
+      "recommendation": "Use HTTPS with valid SSL/TLS certificate"
+    }
+  ],
+  "security_analysis": {
+    "risk_level": "Medium",
+    "score": 80,
+    "recommendations": [
+      "Use encrypted alternatives (HTTPS, SFTP, SSH)",
+      "Regular security audits recommended"
+    ]
+  }
+}
 ```
 
 #### Python API
@@ -246,6 +392,26 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Scanner avançado de segurança de rede construído com Python e Flask. Apresenta descoberta abrangente de rede, varredura de vulnerabilidades, análise de portas e capacidades de avaliação de segurança para identificar potenciais riscos de segurança na infraestrutura de rede.
 
+### Capturas de Tela
+
+#### Interface Web - Painel Principal
+
+![Painel do Scanner de Rede](https://placehold.co/1200x600/1f2937/ffffff/png?text=Painel+do+Scanner+de+Segurança+de+Rede&font=roboto)
+
+*Interface web moderna para configurar e executar varreduras de segurança de rede*
+
+#### Visualização de Resultados da Varredura
+
+![Resultados da Varredura](https://placehold.co/1200x400/2c3e50/ffffff/png?text=Resultados+Detalhados+e+Relatório+de+Vulnerabilidades&font=roboto)
+
+*Resultados abrangentes mostrando portas abertas, serviços e avaliações de vulnerabilidades*
+
+#### Análise de Segurança
+
+![Análise de Segurança](https://placehold.co/1200x400/34495e/ffffff/png?text=Análise+de+Risco+e+Recomendações+de+Segurança&font=roboto)
+
+*Análise de segurança em tempo real com pontuação de risco e recomendações acionáveis*
+
 ### Funcionalidades
 - **Descoberta de Rede**: Descoberta automática de dispositivos de rede
 - **Varredura de Portas**: Análise abrangente de portas e detecção de serviços
@@ -257,39 +423,126 @@ Scanner avançado de segurança de rede construído com Python e Flask. Apresent
 - **Capacidades de Exportação**: Múltiplos formatos de exportação de relatórios
 
 ### Tecnologias Utilizadas
-- **Python 3.8+**
-- **Flask**: Framework web e dashboard
-- **Socket**: Comunicação de rede
-- **Threading**: Varredura concorrente
-- **JSON**: Configuração e relatórios
-- **HTML/CSS**: Interface web
+- **Python 3.8+**: Linguagem de programação principal
+- **Flask**: Framework web e API REST
+- **Flask-CORS**: Suporte para Cross-Origin Resource Sharing
+- **Socket**: Comunicação de rede de baixo nível
+- **Threading**: Varredura concorrente de portas
+- **ipaddress**: Manipulação de endereços de rede
+- **JSON**: Formato de configuração e relatórios
+- **HTML/CSS/JavaScript**: Interface web moderna
+- **pytest**: Framework de testes
+
+### Arquitetura
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                  Interface Web                          │
+│           (Frontend HTML/CSS/JavaScript)                │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  │ API HTTP/JSON
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│                 API REST Flask                          │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Validação de Entrada e Tratamento de Erros    │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Logging e Cabeçalhos de Segurança             │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────┬───────────────────────────────────────┘
+                  │
+                  ↓
+┌─────────────────────────────────────────────────────────┐
+│            Módulo Network Scanner                       │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Motor de Varredura de Portas (Threaded)       │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Identificação de Serviços                      │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Avaliação de Vulnerabilidades                  │  │
+│  └─────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  Análise de Segurança e Relatórios              │  │
+│  └─────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### Instalação
 
-1. Clone o repositório:
+#### Pré-requisitos
+- Python 3.8 ou superior
+- pip (gerenciador de pacotes Python)
+- Ambiente virtual (recomendado)
+
+#### Instalação Passo a Passo
+
+1. **Clone o repositório:**
 ```bash
 git clone https://github.com/galafis/Network-Security-Scanner.git
 cd Network-Security-Scanner
 ```
 
-2. Instale as dependências:
+2. **Crie e ative um ambiente virtual (recomendado):**
+```bash
+# No Linux/Mac
+python3 -m venv venv
+source venv/bin/activate
+
+# No Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+3. **Instale as dependências:**
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Execute a aplicação:
+4. **Configure as variáveis de ambiente (opcional):**
+```bash
+cp .env.example .env
+# Edite o arquivo .env com suas configurações preferidas
+```
+
+5. **Execute a aplicação:**
 ```bash
 python app.py
 ```
 
-### Running Tests
+6. **Acesse a interface web:**
+Abra seu navegador em `http://localhost:5000`
 
-To run the backend tests, navigate to the project root and execute:
+### Executando Testes
+
+O projeto inclui testes unitários e de integração abrangentes.
+
+**Executar todos os testes:**
 ```bash
-python3 -m pytest test_network_scanner.py
+python3 -m pytest test_network_scanner.py test_app.py -v
 ```
 
-4. Abra seu navegador em `http://localhost:5000`
+**Executar arquivo de teste específico:**
+```bash
+# Testes do scanner backend
+python3 -m pytest test_network_scanner.py -v
+
+# Testes da aplicação Flask
+python3 -m pytest test_app.py -v
+```
+
+**Executar com cobertura:**
+```bash
+python3 -m pytest --cov=network_scanner --cov=app --cov-report=html
+```
+
+**Usando unittest (alternativa):**
+```bash
+python3 -m unittest discover -v
+```
 
 ### Uso
 
@@ -302,6 +555,21 @@ python3 -m pytest test_network_scanner.py
 
 #### Endpoints da API
 
+O scanner fornece uma API REST para acesso programático.
+
+**Verificação de Saúde**
+```bash
+curl -X GET http://localhost:5000/health
+```
+
+Resposta:
+```json
+{
+  "status": "healthy",
+  "service": "Network Security Scanner"
+}
+```
+
 **Iniciar Varredura de Rede**
 ```bash
 curl -X POST http://localhost:5000/scan \
@@ -309,11 +577,49 @@ curl -X POST http://localhost:5000/scan \
   -d '{"target": "192.168.1.0/24", "scan_type": "network"}'
 ```
 
-**Obter Resultados da Varredura (Exemplo para varredura de host único)**
+**Varredura de Host Único**
 ```bash
 curl -X POST http://localhost:5000/scan \
   -H "Content-Type: application/json" \
   -d '{"target": "192.168.1.1", "scan_type": "host"}'
+```
+
+**Varredura com Nome de Host**
+```bash
+curl -X POST http://localhost:5000/scan \
+  -H "Content-Type: application/json" \
+  -d '{"target": "example.com", "scan_type": "host"}'
+```
+
+Exemplo de Resposta:
+```json
+{
+  "host": "example.com",
+  "ip": "93.184.216.34",
+  "timestamp": "2024-01-15T10:30:00.123456",
+  "open_ports": [80, 443],
+  "closed_ports": [21, 22, 23],
+  "services": {
+    "80": "HTTP",
+    "443": "HTTPS"
+  },
+  "vulnerabilities": [
+    {
+      "type": "Unencrypted Web Traffic",
+      "severity": "Medium",
+      "description": "HTTP traffic is not encrypted",
+      "recommendation": "Use HTTPS with valid SSL/TLS certificate"
+    }
+  ],
+  "security_analysis": {
+    "risk_level": "Medium",
+    "score": 80,
+    "recommendations": [
+      "Use encrypted alternatives (HTTPS, SFTP, SSH)",
+      "Regular security audits recommended"
+    ]
+  }
+}
 ```
 
 #### API Python
