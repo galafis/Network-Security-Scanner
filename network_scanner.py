@@ -16,12 +16,10 @@ License: MIT
 
 import socket
 import threading
-import subprocess
 import json
 import logging
 from datetime import datetime
 import ipaddress
-import re
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
