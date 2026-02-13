@@ -127,7 +127,7 @@ def internal_error(error):
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 5000))
-    debug = os.getenv("FLASK_DEBUG", "True") == "True"
+    debug = os.getenv("FLASK_DEBUG", "False") == "True"
     logger.info(f"Starting Network Security Scanner on port {port}")
     app.run(debug=debug, host="0.0.0.0", port=port)
 
