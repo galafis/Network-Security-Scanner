@@ -16,7 +16,6 @@ License: MIT
 
 import socket
 import threading
-import json
 import logging
 from datetime import datetime
 import ipaddress
@@ -29,18 +28,15 @@ class NetworkScanner:
     """Network security scanning functionality.
     
     This class provides methods to scan individual hosts or entire network ranges
-    for open ports, identify services, detect vulnerabilities, and analyze
-    security posture.
+    for open ports, identify services, and flag basic security concerns.
     
     Attributes:
         common_ports (list): List of commonly scanned ports
-        scan_results (list): Historical scan results
     """
     
     def __init__(self):
         """Initialize the network scanner with default settings."""
         self.common_ports = [21, 22, 23, 25, 53, 80, 110, 143, 443, 993, 995, 3389, 5432, 3306]
-        self.scan_results = []
         logger.info("NetworkScanner initialized")
     
     def scan_host(self, host, ports=None, timeout=1):
